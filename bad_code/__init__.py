@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 
-from bad_code.db import init_app
+from bad_code.bad_blog.db import init_data_command, init_schema_command, close_db
 from bad_code.bad_blog import blueprint as blog_blueprint
 
 
@@ -13,13 +13,16 @@ def create_app():
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'bad_code.sqlite'),
     )
-    init_app(app)
+
+    # database handling
+    app.teardown_appcontext(close_db)
+
+    # add blog endpoints
     app.register_blueprint(blog_blueprint)
     app.add_url_rule('/', endpoint='index')
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    # register cli commands
+    app.cli.add_command(init_schema_command)
+    app.cli.add_command(init_data_command)
 
     return app

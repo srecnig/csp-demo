@@ -1,6 +1,7 @@
-from bad_code.db import get_db
-from . import blueprint
-from .templating import naive_post_template
+from bad_code.bad_blog.db import get_db
+
+from .naive_templating import naive_post_template
+from .. import blueprint
 
 
 @blueprint.route('/')
