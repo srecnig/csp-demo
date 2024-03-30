@@ -1,8 +1,7 @@
 from flask import Blueprint
-from bad_code.bad_blog.db.db import get_db
 
-blueprint = Blueprint('bad_blog', __name__)
+blueprint = Blueprint("bad_blog", __name__)
 
-from .routes.routes import *
+from .routes.routes import *  # noqa
 
-__all__ = ['blueprint']
+__all__ = ["blueprint"]

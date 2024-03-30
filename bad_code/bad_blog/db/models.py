@@ -1,9 +1,11 @@
 import dataclasses
 
+
 @dataclasses.dataclass
 class Comment:
     title: str
     body: str
+
 
 @dataclasses.dataclass
 class Post:
