@@ -1,24 +1,23 @@
-from bad_code.bad_blog.db import get_db
+from bad_code.bad_blog.db import get_db, Post
 
-from .naive_templating import naive_post_template
+from .naive_templating import naive_post_template, naive_index_template
 from .. import blueprint
 
 
 @blueprint.route('/')
 def index():
     db = get_db()
-    post_count = db.execute('SELECT * FROM post').fetchall()
-    print('*'*50)
-    print(post_count[0]['title'])
-    return f"{post_count}"
+    posts = [ Post(post_id=row['post_id'],title=row['title'], body=row['body'], comments=[]) for row in db.execute('SELECT * FROM post').fetchall()]
+    return naive_index_template(posts)
 
 @blueprint.route('/<int:post_id>', methods=('GET',))
 def post(post_id: int):
     db = get_db()
-    post = db.execute(
+    post_row = db.execute(
         'SELECT * FROM post WHERE post_id = ?', (post_id,)
     ).fetchone()
-    return naive_post_template(post['title'], post['body'])
+    post = Post(post_id=post_row['post_id'] ,title=post_row['title'], body=post_row['body'], comments=[])
+    return naive_post_template(post)
 
 @blueprint.route('/<int:post_id>/add-comment', methods=('POST',))
 def add_comment(post_id):
