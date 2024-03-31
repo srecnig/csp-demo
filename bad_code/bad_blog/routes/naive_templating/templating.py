@@ -10,18 +10,20 @@ def naive_index_template(posts: list[Post]):
             for post in posts
         ]
     )
-    body_html = f"""<h1>Posts</h1>
+    body_html = f"""<h1 class="display-4">Posts</h1>
     <ul>{posts_html}</ul>"""
     return naive_html_base_template(body_html)
 
 
 def naive_post_template(post: Post):
     comments_html = "\n".join([naive_comment_template(comment) for comment in post.comments])
-    body_html = f"""<h1>{post.title}</h1>
+    body_html = f"""<h1 class="display-4">{post.title}</h1>
     {post.body}
     <hr>
-    <h2>Comments</h2>
+    <h3>Leave a comment</h3>
     {naive_comment_form(post)}
+    <hr>
+    <h3>Comments</h3>
     {comments_html}
 """
     return naive_html_base_template(body_html)
@@ -29,26 +31,43 @@ def naive_post_template(post: Post):
 
 def naive_comment_form(post: Post):
     return f"""<form method="post" action="/{post.post_id}/add-comment">
-    <label for="title">Title</label><br>
-    <input type="text" name="title" placeholder="Title"><br>
-    <label for="title">Your comment</label><br>
-    <textarea name="body" placeholder="Tell us what you like"></textarea><br>
-    <input type="submit" value="Submit">"""
+    <label class="form-label" for="title">Title</label><br>
+    <input class="form-control" type="text" name="title" placeholder="Title"><br>
+    <label class="form-label" for="body">Your comment</label><br>
+    <textarea class="form-control" name="body" placeholder="Tell us what you like"></textarea><br>
+    <input class="btn btn-primary" type="submit" value="Submit">
+</form>"""
 
 
 def naive_comment_template(comment: Comment):
-    comment_html = f"""<h3>{comment.title}</h3>
+    comment_html = f"""<h4>{comment.title}</h4>
     <p>{comment.body}</p>
 """
     return comment_html
 
 
 def naive_html_base_template(body: str):
-    return f"""<html>
+    return f"""<!doctype html>
+<html lang="en">
 <head>
     <title>really bad blog</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-    {body}
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Really bad blog</a>
+    </div>
+    </nav>
+    <div class="container-fluid bg-body-tertiary"> 
+        <div class="container">
+        {body}
+        </div>
+    </div>
+    <footer class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="navbar-nav"><span class="navbar-text">© 2024 Johnny Gringo<span></div>
+    </footer>
 </body>
 </html>"""
