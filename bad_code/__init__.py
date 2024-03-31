@@ -2,8 +2,8 @@ import os
 
 from flask import Flask
 
-from bad_code.bad_blog.db import init_data_command, init_schema_command, close_db
 from bad_code.bad_blog import blueprint as blog_blueprint
+from bad_code.bad_blog.db import close_db, init_database
 
 
 def create_app():
@@ -22,7 +22,6 @@ def create_app():
     app.add_url_rule("/", endpoint="index")
 
     # register cli commands
-    app.cli.add_command(init_schema_command)
-    app.cli.add_command(init_data_command)
+    app.cli.add_command(init_database)
 
     return app

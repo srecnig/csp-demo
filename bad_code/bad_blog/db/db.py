@@ -30,18 +30,12 @@ def init_data():
     db.executescript(data)
 
 
-@click.command("init-schema")
-def init_schema_command():
+@click.command("init-database")
+def init_database():
     """Clear the existing data and create new tables."""
     init_schema()
-    click.echo("Initialized the database.")
-
-
-@click.command("init-data")
-def init_data_command():
-    """Insert new sample data into the database."""
     init_data()
-    click.echo("Initialized data.")
+    click.echo("Initialized the database & reset all data.")
 
 
 def _read_sql_file(filename: str):

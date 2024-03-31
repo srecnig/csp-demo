@@ -1,11 +1,10 @@
-from .db import get_db, close_db, init_data_command, init_schema_command
-from .models import Post, Comment
+from .db import close_db, get_db, init_database
+from .models import Comment, Post
 
 __all__ = [
     "close_db",
     "get_db",
-    "init_schema_command",
-    "init_data_command",
+    "init_database",
     "Post",
     "Comment",
 ]
