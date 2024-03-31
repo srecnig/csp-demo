@@ -3,6 +3,7 @@ import dataclasses
 
 @dataclasses.dataclass
 class Comment:
+    comment_id: int
     title: str
     body: str
 
