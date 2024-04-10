@@ -3,7 +3,7 @@ from flask import url_for
 from bad_code.bad_blog.db import Comment, Post
 
 
-def naive_index_template(posts: list[Post]):
+def naive_index_template(posts: list[Post], name: str):
     posts_html = "\n".join(
         [
             f"<li><a href=\"{ url_for('.post', post_id=post.post_id)  }\">{post.post_id} {post.title}</li>"
@@ -11,6 +11,7 @@ def naive_index_template(posts: list[Post]):
         ]
     )
     body_html = f"""<h1 class="display-4">Posts</h1>
+    <p>hey, {name}, how are you?</p>
     <ul>{posts_html}</ul>"""
     return naive_html_base_template(body_html)
 
@@ -70,6 +71,7 @@ def naive_html_base_template(body: str):
         {body}
         </div>
     </div>
+    <br><br>
     <footer class="navbar bg-dark fixed-bottom" data-bs-theme="dark">
         <div class="navbar-nav"><span class="navbar-text">© 2024 Johnny Gringo<span></div>
     </footer>
@@ -78,4 +80,4 @@ def naive_html_base_template(body: str):
 
 
 def _csp_meta_tag():
-    return '<meta http-equiv="Content-Security-Policy" content="default-src \'self\'; style-src *;"/>'
+    return '<meta http-equiv="Content-Security-Policy" content="default-src \'self\';"/>'

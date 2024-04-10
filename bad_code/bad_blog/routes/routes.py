@@ -13,7 +13,8 @@ def index():
         Post(post_id=row["post_id"], title=row["title"], body=row["body"], comments=[])
         for row in db.execute("SELECT * FROM post").fetchall()
     ]
-    return naive_index_template(posts)
+    name = request.args.get("name", "visitor")
+    return naive_index_template(posts, name)
 
 
 @blueprint.route("/<int:post_id>", methods=("GET",))
